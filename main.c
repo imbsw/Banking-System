@@ -10,13 +10,14 @@ void close();
 
 int decision;
 
-struct {
+struct
+{
     char cus_name[20];
     int accNo;
     char nic[11];
     char accType[2];
     float balance;
-    }create,tocheck,deposit,withdraw;
+} create,tocheck,deposit,withdraw;
 
 int main()
 {
@@ -25,37 +26,39 @@ int main()
     printf("\n\n\t\t\t\t               ABC BANKING SYSTEM");
     printf("\n\n\t\t\t ==============WELCOME TO THE MAIN MENU============== ");
 
-    do{
-
-    printf("\n \nPress 1 to add a new customer to the bank.");
-    printf("\nPress 2 to Deposit Money.");
-    printf("\nPress 3 to Withdraw Money.");
-    printf("\nPress 4 to display account Details");
-    printf("\nPress 5 to Display sorted customer details according to the account type:");
-    printf("\nPress 6 to Exit The Program:\n");
-
-    scanf("%d",&option);
-
-    switch(option)
+    do
     {
-    case 1:
-        create_new();
-        break;
-    case 2:
-        deposit_money();
-        break;
-    case 3:
-        withdraw_money();
-        break;
-    case 4:
-        display_acc();
-        break;
-    case 5:
-        display_all();
-        break;
-    case 6:
-        close();
-        break;
+
+        printf("\n \nPress 1 to add a new customer to the bank.");
+        printf("\nPress 2 to Deposit Money.");
+        printf("\nPress 3 to Withdraw Money.");
+        printf("\nPress 4 to display account Details");
+        printf("\nPress 5 to Display sorted customer details according to the account type:");
+        printf("\nPress 0 to Exit The Program:\n");
+
+        scanf("%d",&option);
+
+        switch(option)
+        {
+
+        case 0:
+            close();
+            break;
+        case 1:
+            create_new();
+            break;
+        case 2:
+            deposit_money();
+            break;
+        case 3:
+            withdraw_money();
+            break;
+        case 4:
+            display_acc();
+            break;
+        case 5:
+            display_all();
+            break;
 
 
         }
@@ -71,7 +74,7 @@ void create_new()
 {
     FILE *fpointer;
     fpointer=fopen("customer.txt","a+");
-    add_account:
+add_account:
     printf("\nEnter Account Number:");
     scanf("%d",&tocheck.accNo);
     while(fscanf(fpointer,"%d %s %s %s %f \n",&create.accNo,create.accType,create.cus_name,create.nic,&create.balance)!=EOF)
@@ -131,7 +134,8 @@ void deposit_money()
             printf("Deposited Succesfully!");
 
         }
-        else{
+        else
+        {
             printf("Account does not Exists\nto retry press 1\npress 0 to go to the main menu:\n");
             printf("Account does not Exists\nto retry press 1\npress 0 to go to the main menu:\n");
             scanf("%d",&decision);
@@ -142,12 +146,12 @@ void deposit_money()
             else
                 main();
 
-            }
+        }
     }
-            fclose(oldData);
-            fclose(newData);
-            remove("customer.txt");
-            rename("newCus.txt","customer.txt");
+    fclose(oldData);
+    fclose(newData);
+    remove("customer.txt");
+    rename("newCus.txt","customer.txt");
 
 }
 void withdraw_money()
@@ -187,81 +191,81 @@ void withdraw_money()
                     printf("\n\tWithdrawn succesfully");
                     printf("\n\tYour Current Balance is Rs%f",create.balance);
                 }
-             if(strcmpi(create.accType,"E")==0)
+                if(strcmpi(create.accType,"E")==0)
                 {
-                printf("\n\tMinimum Balance Should be Rs 1000.00");
-                create.balance-=withdraw.balance;
+                    printf("\n\tMinimum Balance Should be Rs 1000.00");
+                    create.balance-=withdraw.balance;
 
-                if(create.balance < 1000)
+                    if(create.balance < 1000)
+                    {
+                        printf("\n\t Account Balance Is Not Sufficient:");
+                        create.balance+=withdraw.balance;
+                        fprintf(newData1,"%d %s %s %s %f\n",create.accNo,create.accType,create.cus_name,create.nic,create.balance);
+
+                        main();
+
+                    }
+                    else
+                    {
+                        fprintf(newData1,"%d %s %s %s %f\n",create.accNo,create.accType,create.cus_name,create.nic,create.balance);
+                        printf("\n\tWithdrawn succesfully");
+                        printf("\n\tYour Current Balance is Rs%f",create.balance);
+                    }
+                }
+                if(strcmpi(create.accType,"R")==0)
                 {
-                    printf("\n\t Account Balance Is Not Sufficient:");
-                    create.balance+=withdraw.balance;
-                    fprintf(newData1,"%d %s %s %s %f\n",create.accNo,create.accType,create.cus_name,create.nic,create.balance);
 
-                    main();
+                    printf("\n\tMinimum Balance Should be Rs 1500.00");
+                    create.balance-=withdraw.balance;
+
+                    if(create.balance < 1500)
+                    {
+                        printf("\n\t Account Balance Is Not Sufficient:");
+                        create.balance+=withdraw.balance;
+                        fprintf(newData1,"%d %s %s %s %f\n",create.accNo,create.accType,create.cus_name,create.nic,create.balance);
+
+                        main();
+
+                    }
+                    else
+                    {
+                        fprintf(newData1,"%d %s %s %s %f\n",create.accNo,create.accType,create.cus_name,create.nic,create.balance);
+                        printf("\n\tWithdrawn succesfully");
+                        printf("\n\tYour Current Balance is Rs%f",create.balance);
+                    }
 
                 }
-                else
+                if(strcmpi(create.accType,"W")==0)
                 {
-                    fprintf(newData1,"%d %s %s %s %f\n",create.accNo,create.accType,create.cus_name,create.nic,create.balance);
-                    printf("\n\tWithdrawn succesfully");
-                    printf("\n\tYour Current Balance is Rs%f",create.balance);
-                }
-              }
-           if(strcmpi(create.accType,"R")==0)
-           {
 
-                printf("\n\tMinimum Balance Should be Rs 1500.00");
-                create.balance-=withdraw.balance;
+                    printf("\n\tMinimum Balance Should be Rs 1000.00");
+                    create.balance-=withdraw.balance;
 
-                if(create.balance < 1500)
-                {
-                    printf("\n\t Account Balance Is Not Sufficient:");
-                    create.balance+=withdraw.balance;
-                    fprintf(newData1,"%d %s %s %s %f\n",create.accNo,create.accType,create.cus_name,create.nic,create.balance);
+                    if(create.balance < 1000)
+                    {
+                        printf("\n\t Account Balance Is Not Sufficient:");
+                        create.balance+=withdraw.balance;
+                        fprintf(newData1,"%d %s %s %s %f\n",create.accNo,create.accType,create.cus_name,create.nic,create.balance);
 
-                    main();
+                        main();
 
-                }
-                else
-                {
-                    fprintf(newData1,"%d %s %s %s %f\n",create.accNo,create.accType,create.cus_name,create.nic,create.balance);
-                    printf("\n\tWithdrawn succesfully");
-                    printf("\n\tYour Current Balance is Rs%f",create.balance);
-                }
-
-           }
-           if(strcmpi(create.accType,"W")==0)
-           {
-
-                printf("\n\tMinimum Balance Should be Rs 1000.00");
-                create.balance-=withdraw.balance;
-
-                if(create.balance < 1000)
-                {
-                    printf("\n\t Account Balance Is Not Sufficient:");
-                    create.balance+=withdraw.balance;
-                    fprintf(newData1,"%d %s %s %s %f\n",create.accNo,create.accType,create.cus_name,create.nic,create.balance);
-
-                    main();
+                    }
+                    else
+                    {
+                        fprintf(newData1,"%d %s %s %s %f\n",create.accNo,create.accType,create.cus_name,create.nic,create.balance);
+                        printf("\n\tWithdrawn succesfully");
+                        printf("\n\tYour Current Balance is Rs%f",create.balance);
+                    }
 
                 }
-                else
-                {
-                    fprintf(newData1,"%d %s %s %s %f\n",create.accNo,create.accType,create.cus_name,create.nic,create.balance);
-                    printf("\n\tWithdrawn succesfully");
-                    printf("\n\tYour Current Balance is Rs%f",create.balance);
-                }
+            }
 
-           }
-       }
-
+        }
     }
-  }
-            fclose(oldData1);
-            fclose(newData1);
-            remove("customer.txt");
-            rename("newCus.txt","customer.txt");
+    fclose(oldData1);
+    fclose(newData1);
+    remove("customer.txt");
+    rename("newCus.txt","customer.txt");
 }
 void display_acc()
 {
@@ -276,18 +280,17 @@ void display_acc()
         if(tocheck.accNo==create.accNo)
             printf("\n%d \t\n%s \t\n%s \t\n%s \t\n%.2f",create.accNo,create.accType,create.cus_name,create.nic,create.balance);
 
-        else{
+        else
+        {
             printf("Account You Entered does not exists");
-            printf("\n\n\n\tPress 1 to check a another account or press 0 to go to the main menu or press 2 to exit the program:");
+            printf("\n\n\n\tPress 1 to check a another account or press 0 to go to the main menu:");
             scanf("%d",&decision);
             if(decision==0)
-            main();
+                main();
             else if(decision==1)
-            display_acc();
-            else if(decision==2)
-            close();
+                display_acc();
             else
-            main();
+                main();
         }
 
     }
@@ -308,18 +311,17 @@ void display_all()
         if(strcmpi(create.accType,tocheck.accType)==0)
             printf("\n%d \t\n%s \t\n%s \t\n%s \t\n%.2f\n\n",create.accNo,create.accType,create.cus_name,create.nic,create.balance);
 
-        else{
+        else
+        {
             printf("Entered Account Type Does Not exists");
-            printf("\n\n\n\tPress 1 to view all the accounts according account type or press 0 to go to the main menu or press 2 to exit the program:");
+            printf("\n\n\n\tPress 1 to view all the accounts according account type or press 0 to go to the main menu:");
             scanf("%d",&decision);
             if(decision==0)
-            main();
+                main();
             else if(decision==1)
-            display_all();
-            else if(decision==2)
-            close();
+                display_all();
             else
-            main();
+                main();
         }
 
     }
@@ -328,4 +330,5 @@ void close()
 {
     system("cls");
     printf("Thank You");
+
 }
