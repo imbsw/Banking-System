@@ -286,7 +286,7 @@ void withdraw_money()
 }
 void display_acc()
 {  int run=0;
-    
+
     printf("Enter The Account Number That You want to check:");
     scanf("%d",&tocheck.accNo);
 
@@ -298,10 +298,10 @@ void display_acc()
         if(tocheck.accNo==create.accNo)
             {
                 printf("\n%d \t\n%s \t\n%s \t\n%s \t\n%.2f",create.accNo,create.accType,create.cus_name,create.nic,create.balance);
-                test=1;
+                run=1;
             }
     }
-    
+
     if(run!=1)
         {
             printf("Account You Entered does not exists");
@@ -318,9 +318,9 @@ void display_acc()
 
 }
 void display_all()
-{   
+{
     int run=0;
-    
+
     FILE *view1;
 
     view1=fopen("customer.txt","r");
@@ -335,7 +335,7 @@ void display_all()
                 run=1;
             }
     }
-    
+
     if(run!=1)
         {
             printf("Entered Account Type Does Not exists");
