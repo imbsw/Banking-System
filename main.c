@@ -74,7 +74,6 @@ void create_new()
 {
     FILE *fpointer;
     fpointer=fopen("customer.txt","a+");
-add_account:
     printf("\nEnter Account Number:");
     scanf("%d",&tocheck.accNo);
     while(fscanf(fpointer,"%d %s %s %s %f \n",&create.accNo,create.accType,create.cus_name,create.nic,&create.balance)!=EOF)
@@ -82,7 +81,7 @@ add_account:
         if(tocheck.accNo==create.accNo)
         {
             printf("Account Number is Already in use");
-            goto add_account;
+            create_new();
         }
     }
     create.accNo=tocheck.accNo;
