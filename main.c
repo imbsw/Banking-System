@@ -102,20 +102,20 @@ add_account:
     fclose(fpointer);
     printf("\nSuccesful!");
 
-    printf("\n\n\n\tPress 1 to add a another account or press 0 to go to the main menu or press 2 exit the program:");
+    printf("\n\n\n\tPress 1 to add a another account or press 0 to go to the main menu:");
     scanf("%d",&decision);
     if(decision==0)
         main();
     else if(decision==1)
         create_new();
-    else if(decision==2)
-        close();
     else
         main();
 
 }
 void deposit_money()
 {
+    int run=0;
+
     FILE *oldData,*newData;
     oldData=fopen("customer.txt","r");
     newData=fopen("newCus.txt","w");
@@ -125,8 +125,9 @@ void deposit_money()
 
     while(fscanf(oldData,"%d %s %s %s %f \n",&create.accNo,create.accType,create.cus_name,create.nic,&create.balance)!=EOF)
     {
-        if(create.accNo==deposit.accNo)
+        if(deposit.accNo==create.accNo)
         {
+            run=1;
             printf("Enter The Amount That You want To Deposit:");
             scanf("%f",&deposit.balance);
             create.balance+=deposit.balance;
@@ -134,9 +135,15 @@ void deposit_money()
             printf("Deposited Succesfully!");
 
         }
-        else
+
+    }
+    fclose(oldData);
+    fclose(newData);
+    remove("customer.txt");
+    rename("newCus.txt","customer.txt");
+
+            if(run!=1)
         {
-            printf("Account does not Exists\nto retry press 1\npress 0 to go to the main menu:\n");
             printf("Account does not Exists\nto retry press 1\npress 0 to go to the main menu:\n");
             scanf("%d",&decision);
             if(decision==0)
@@ -147,15 +154,11 @@ void deposit_money()
                 main();
 
         }
-    }
-    fclose(oldData);
-    fclose(newData);
-    remove("customer.txt");
-    rename("newCus.txt","customer.txt");
 
 }
 void withdraw_money()
 {
+    int run=0;
 
     FILE *oldData1,*newData1;
     oldData1=fopen("customer.txt","r");
@@ -168,6 +171,7 @@ void withdraw_money()
     {
         if(create.accNo==withdraw.accNo)
         {
+            run=1;
             printf("Enter the amount that you want to withdraw:");
             scanf("%f",&withdraw.balance);
 
@@ -266,9 +270,23 @@ void withdraw_money()
     fclose(newData1);
     remove("customer.txt");
     rename("newCus.txt","customer.txt");
+
+            if(run!=1)
+        {
+            printf("Account does not Exists\nto retry press 1\npress 0 to go to the main menu:\n");
+            scanf("%d",&decision);
+            if(decision==0)
+                main();
+            else if(decision==1)
+                deposit_money();
+            else
+                main();
+
+        }
 }
 void display_acc()
-{
+{  int run=0;
+    
     printf("Enter The Account Number That You want to check:");
     scanf("%d",&tocheck.accNo);
 
@@ -278,9 +296,13 @@ void display_acc()
     while(fscanf(view,"%d %s %s %s %f \n",&create.accNo,create.accType,create.cus_name,create.nic,&create.balance)!=EOF)
     {
         if(tocheck.accNo==create.accNo)
-            printf("\n%d \t\n%s \t\n%s \t\n%s \t\n%.2f",create.accNo,create.accType,create.cus_name,create.nic,create.balance);
-
-        else
+            {
+                printf("\n%d \t\n%s \t\n%s \t\n%s \t\n%.2f",create.accNo,create.accType,create.cus_name,create.nic,create.balance);
+                test=1;
+            }
+    }
+    
+    if(run!=1)
         {
             printf("Account You Entered does not exists");
             printf("\n\n\n\tPress 1 to check a another account or press 0 to go to the main menu:");
@@ -293,13 +315,12 @@ void display_acc()
                 main();
         }
 
-    }
-
-
 
 }
 void display_all()
-{
+{   
+    int run=0;
+    
     FILE *view1;
 
     view1=fopen("customer.txt","r");
@@ -309,9 +330,13 @@ void display_all()
     while(fscanf(view1,"%d %s %s %s %f \n",&create.accNo,create.accType,create.cus_name,create.nic,&create.balance)!=EOF)
     {
         if(strcmpi(create.accType,tocheck.accType)==0)
-            printf("\n%d \t\n%s \t\n%s \t\n%s \t\n%.2f\n\n",create.accNo,create.accType,create.cus_name,create.nic,create.balance);
-
-        else
+            {
+                printf("\n%d \t\n%s \t\n%s \t\n%s \t\n%.2f\n\n",create.accNo,create.accType,create.cus_name,create.nic,create.balance);
+                run=1;
+            }
+    }
+    
+    if(run!=1)
         {
             printf("Entered Account Type Does Not exists");
             printf("\n\n\n\tPress 1 to view all the accounts according account type or press 0 to go to the main menu:");
@@ -323,8 +348,6 @@ void display_all()
             else
                 main();
         }
-
-    }
 }
 void close()
 {
