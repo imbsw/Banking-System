@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <windows.h>
+#include <stdbool.h>
 
 void create_new();
 void deposit_money();
