@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 void create_new();
 void deposit_money();
 void withdraw_money();
 void display_acc();
 void display_all();
 void close();
+void display_accTypes();
 
 int decision;
 
@@ -29,12 +31,13 @@ int main()
     do
     {
 
-        printf("\n \nPress 1 to add a new customer to the bank.");
-        printf("\nPress 2 to Deposit Money.");
-        printf("\nPress 3 to Withdraw Money.");
-        printf("\nPress 4 to display account Details");
-        printf("\nPress 5 to Display sorted customer details according to the account type:");
-        printf("\nPress 0 to Exit The Program:\n");
+        printf("\n \n  Press 1 to add a new customer to the bank.");
+        printf("\n  Press 2 to Deposit Money.");
+        printf("\n  Press 3 to Withdraw Money.");
+        printf("\n  Press 4 to display account Details");
+        printf("\n  Press 5 to Display sorted customer details according to the account type:");
+        printf("\n  Press 6 to display account types and rates");
+        printf("\n  Press 0 to Exit The Program:\n");
 
         scanf("%d",&option);
 
@@ -59,6 +62,9 @@ int main()
         case 5:
             display_all();
             break;
+        case 6:
+            display_accTypes();
+            break;
 
 
         }
@@ -72,6 +78,8 @@ int main()
 
 void create_new()
 {
+    system("cls");
+
     FILE *fpointer;
     fpointer=fopen("customer.txt","a+");
     printf("\nEnter Account Number:");
@@ -134,6 +142,10 @@ void deposit_money()
             printf("Deposited Succesfully!");
 
         }
+        else
+        {
+         fprintf(newData,"%d %s %s %s %f\n",create.accNo,create.accType,create.cus_name,create.nic,create.balance);
+        }
 
     }
     fclose(oldData);
@@ -143,7 +155,8 @@ void deposit_money()
 
             if(run!=1)
         {
-            printf("Account does not Exists\nto retry press 1\npress 0 to go to the main menu:\n");
+
+            printf("Account does not Exists\nto retry press 1 press 0 to go to the main menu:\n");
             scanf("%d",&decision);
             if(decision==0)
                 main();
@@ -194,6 +207,7 @@ void withdraw_money()
                     printf("\n\tWithdrawn succesfully");
                     printf("\n\tYour Current Balance is Rs%f",create.balance);
                 }
+            }
                 if(strcmpi(create.accType,"E")==0)
                 {
                     printf("\n\tMinimum Balance Should be Rs 1000.00");
@@ -263,7 +277,8 @@ void withdraw_money()
                 }
             }
 
-        }
+
+
     }
     fclose(oldData1);
     fclose(newData1);
@@ -277,7 +292,7 @@ void withdraw_money()
             if(decision==0)
                 main();
             else if(decision==1)
-                deposit_money();
+                withdraw_money();
             else
                 main();
 
@@ -285,6 +300,8 @@ void withdraw_money()
 }
 void display_acc()
 {  int run=0;
+
+   system("cls");
 
     printf("Enter The Account Number That You want to check:");
     scanf("%d",&tocheck.accNo);
@@ -320,6 +337,8 @@ void display_all()
 {
     int run=0;
 
+    system("cls");
+
     FILE *view1;
 
     view1=fopen("customer.txt","r");
@@ -347,6 +366,26 @@ void display_all()
             else
                 main();
         }
+}
+
+void display_accTypes()
+{
+    system("cls");
+
+    printf("\n\nCode    Title              Interest Rates      Minimum Balance\n");
+    printf("    N       Normal               4                  Rs. 500\n");
+    printf("    E       Eighteen Plus        4.5                Rs. 1000\n");
+    printf("    R       Normal               5                  Rs. 1500\n");
+    printf("    W       Wanitha              4.7                Rs. 1000\n");
+
+    printf("\n\n\tPress 0 to to go to the main menu:");
+            scanf("%d",&decision);
+            if(decision==0)
+                main();
+            else
+                main();
+
+
 }
 void close()
 {
